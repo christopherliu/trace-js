@@ -16,7 +16,7 @@ Constantly commenting and uncommenting console.log statements and reloading the 
 How do I use it?
 ----------------
 
-trace-js lets you add debug statements that you can keep in your code:
+trace-js lets you add debug statements that *you can keep in your code*:
 
 ``` js
 function SampleObject() {
