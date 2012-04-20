@@ -38,14 +38,14 @@ setInterval(function() {
 }, 1000);
 ```
 
-When you want to watch the appropriate events, just run _watch in the console.
+When you want to watch the appropriate events, just run _watch in the console. You'll only see *the objects you filter out*.
 
 ``` js
 //Only watch RunSampleB events
-_watch(1, "RunSampleB");
+_watch("RunSampleB");
 
 //Watch all warnings on SampleObject.
-_watch("warn", "SampleObject");
+_watch("SampleObject", "warn");
 
 ```
 
@@ -64,4 +64,4 @@ There are five functions to know.
 
 *_debug, _info, _warn(message[, tags])*: These are the tracing functions. Put them everywhere to log events - they won't turn on until you watch them.
 
-*_watch, _unwatch(traceLevel[, objectToWatch, [tagToWatch]])*: Call these functions from anywhere to start logging the appropriate events.
+*_watch, _unwatch([objectToWatch[, traceLevel, [tagToWatch]]])*: Call these functions from anywhere to start logging the appropriate events.
