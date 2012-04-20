@@ -21,11 +21,11 @@ trace-js lets you add debug statements that *you can keep in your code*:
 ``` js
 function SampleObject() {
   this.RunSampleA = function RunSampleA() {
-    this._debug("RunSampleA debug");
-    this._warn("RunSampleA warn");
+    _debug(this, "RunSampleA debug");
+    _warn(this, "RunSampleA warn");
   };
   this.RunSampleB = function RunSampleB() {
-    this._debug("RunSampleB debug");
+    _debug(this, "RunSampleB debug");
   };
 }
 
@@ -34,7 +34,7 @@ var test = new SampleObject();
 setInterval(function() {
   test.RunSampleA();
   test.RunSampleB();
-  _debug("This won't show up!");
+  _debug(false, "This won't show up!");
 }, 1000);
 ```
 
@@ -62,6 +62,6 @@ Developer's Reference
 ====================
 There are five functions to know.
 
-*_debug, _info, _warn(message[, tags])*: These are the tracing functions. Put them everywhere to log events - they won't turn on until you watch them.
+*_debug, _info, _warn(thisObject, [message[, tags]])*: These are the tracing functions. Put them everywhere to log events - they won't turn on until you watch them.
 
 *_watch, _unwatch([objectToWatch[, traceLevel, [tagToWatch]]])*: Call these functions from anywhere to start logging the appropriate events.
