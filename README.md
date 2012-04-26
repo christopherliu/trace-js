@@ -22,13 +22,13 @@ trace-js lets you add debug statements that *you can keep in your code*:
 
 function SampleObject() {
   var debug = TraceJS.GetLogger("debug", "SampleObject");
-  var warn = TraceJS.GetLogger("debug", "SampleObject");
+  var warn = TraceJS.GetLogger("warn", "SampleObject");
   this.RunSampleA = function RunSampleA() {
-    debug("RunSampleA", "debug");
-    warn("RunSampleA", "warn");
+    debug("RunSampleA", "debug test");
+    warn("RunSampleA", "warn test");
   };
   this.RunSampleB = function RunSampleB() {
-    debug("RunSampleB", "debug");
+    debug("RunSampleB", "debug test");
   };
 }
 
