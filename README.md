@@ -19,22 +19,26 @@ How do I use it?
 trace-js lets you add debug statements that *you can keep in your code*:
 
 ``` js
+
 function SampleObject() {
+  var debug = TraceJS.GetLogger("debug", "SampleObject");
+  var warn = TraceJS.GetLogger("debug", "SampleObject");
   this.RunSampleA = function RunSampleA() {
-    _debug(this, "RunSampleA debug");
-    _warn(this, "RunSampleA warn");
+    debug("RunSampleA", "debug");
+    warn("RunSampleA", "warn");
   };
   this.RunSampleB = function RunSampleB() {
-    _debug(this, "RunSampleB debug");
+    debug("RunSampleB", "debug");
   };
 }
 
 
 var test = new SampleObject();
+var debug = TraceJS.GetLogger("debug");
 setInterval(function() {
   test.RunSampleA();
   test.RunSampleB();
-  _debug(false, "This won't show up!");
+  debug(false, "This won't show up in the other tests!");
 }, 1000);
 ```
 
@@ -42,10 +46,10 @@ When you want to watch the appropriate events, just run _watch in the console. Y
 
 ``` js
 //Only watch RunSampleB events
-_watch("RunSampleB");
+TraceJS("RunSampleB");
 
 //Watch all warnings on SampleObject.
-_watch("SampleObject", "warn");
+TraceJS("RunSampleB", "warn");
 
 ```
 
@@ -60,8 +64,8 @@ The quickest way is to include trace-js in your JS, like this:
 
 Developer's Reference
 ====================
-There are five functions to know.
+There are two functions to know.
 
-*_debug, _info, _warn(thisObject, [message[, tags]])*: These are the tracing functions. Put them everywhere to log events - they won't turn on until you watch them.
+*TraceJS.GetLogger(type, commonTags)*: This returns a tracing function. Put them everywhere to log events - they won't turn on until you watch them.
 
-*_watch, _unwatch([objectToWatch[, traceLevel, [tagToWatch]]])*: Call these functions from anywhere to start logging the appropriate events.
+*TraceJS(watchThis[, pIncludeStack])*: Call this functions from anywhere to start tapping into the appropriate events.
