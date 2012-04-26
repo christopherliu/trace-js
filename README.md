@@ -42,7 +42,7 @@ setInterval(function() {
 }, 1000);
 ```
 
-When you want to watch the appropriate events, just run _watch in the console. You'll only see *the objects you filter out*.
+When you want to watch the appropriate events, just run TraceJS in the console. You'll only see *the objects you filter out*.
 
 ``` js
 //Only watch RunSampleB events
