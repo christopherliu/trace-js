@@ -73,6 +73,6 @@ There are two functions to know.
 
 *[var x = ] TraceJS.GetLogger(type, commonTags)*: This returns a tracing function.
 
-*x(tags, description): Once you have a tracing function, put it everywhere to log events - they won't turn on unless you watch them.
+*x(tags, description)*: Once you have a tracing function, put it everywhere to log events - they won't turn on unless you watch them.
 
 *TraceJS(watchThis[, includeStack])*: Call this functions from anywhere to start tapping into the appropriate events.
