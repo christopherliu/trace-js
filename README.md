@@ -69,7 +69,7 @@ The quickest way is to include trace-js in your JS, like this:
 
 Developer's Reference
 ====================
-There are two functions to know.
+There are two point five functions to know.
 
 *[var x = ] TraceJS.GetLogger(type, commonTags)*: This returns a tracing function.
 
