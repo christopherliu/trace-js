@@ -49,7 +49,7 @@ When you want to watch the appropriate events, just run TraceJS in the console. 
 TraceJS("RunSampleB");
 
 //Watch all warnings on SampleObject.
-TraceJS("RunSampleB");
+TraceJS("SampleObject");
 
 //Watch just events tagged banana
 TraceJS("banana");
@@ -65,14 +65,27 @@ How do I get started?
 The quickest way is to include trace-js in your JS, like this:
 ``` html
 <script src="trace-js.js"></script>
+<script>
+var debug = TraceJS.GetLogger("debug");
+// ...
+</script>
 ```
 
 Developer's Reference
 ====================
-There are two point five functions to know.
+There are 2.5 functions to know:
 
-*[var x = ] TraceJS.GetLogger(type, commonTags)*: This returns a tracing function.
+``` js
+[var log =] TraceJS.GetLogger(type, commonTags);
+```
+This returns a tracing function.
 
-*x(tags, description)*: Once you have a tracing function, put it everywhere to log events - they won't turn on unless you watch them.
+``` js
+log(tags, description);
+```
+ Once you have a tracing function, put it everywhere to log events - they won't turn on unless you watch them.
 
-*TraceJS(watchThis[, includeStack])*: Call this functions from anywhere to start tapping into the appropriate events.
+``` js
+TraceJS(watchThis[, includeStack])
+```
+Call this function from anywhere to start tapping into the appropriate events.
