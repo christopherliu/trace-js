@@ -1,9 +1,11 @@
 /**
  * @name TraceJS
- * @version 0.1 (c) 2012 Christopher Liu
+ * @version 0.2 (c) 2012 Christopher Liu
  * 
  * TraceJS is freely distributable under the MIT license. For all details and
  * documentation: https://github.com/christopherliu/trace-js
+ * 
+ * Requires JSON support.
  * 
  * @example <code>
 var debug = TraceJS.GetLogger("debug", "StoryEditor");
@@ -28,28 +30,40 @@ TraceJS("StoryEditor", true);
 	function load() {
 		if (typeof sessionStorage !== "undefined") {
 			watchingNow =
-				sessionStorage.getItem("jsTrace-watchingNow") || false;
+				JSON.parse(sessionStorage.getItem("jsTrace-watchingNow") || "false");
 			includeStack =
-				sessionStorage.getItem("jsTrace-includeStack") === true || false;
+				JSON.parse(sessionStorage.getItem("jsTrace-includeStack") || "false");
 		}
 	}
 	function save() {
 		if (typeof sessionStorage !== "undefined") {
-			sessionStorage.setItem("jsTrace-watchingNow", watchingNow);
-			sessionStorage.setItem("jsTrace-includeStack", includeStack);
+			sessionStorage.setItem("jsTrace-watchingNow", JSON.stringify(watchingNow));
+			sessionStorage.setItem("jsTrace-includeStack", JSON.stringify(includeStack));
 		}
 	}
+	function isArray(someVar) {
+		return Object.prototype.toString.call(someVar) === '[object Array]';
+	}
 	function generateLoggingFunction(logLevel) {
-		var _log = console[logLevel];
 		/**
 		 * @param {String[]}
 		 *            tags An array of tags that are being recorded
 		 */
 		return function debug(tags, message) {
 			function isBeingWatched(test) {
-				return test
-					&& (watchingNow == test || (test.indexOf && test
-						.indexOf(watchingNow) != -1));
+				if (test) {
+					if (isArray(watchingNow)) {
+						return watchingNow.some(function(wn) {
+							return (wn == test || (test.indexOf && test
+							.indexOf(wn) != -1));
+						});
+					}
+					else {
+						return (watchingNow == test || (test.indexOf && test
+							.indexOf(watchingNow) != -1));
+					}
+				}
+				return false;
 			}
 			if (!tags.some(isBeingWatched)) {
 				return false;
@@ -58,9 +72,9 @@ TraceJS("StoryEditor", true);
 			// invalid in strict mode: console.log([this,
 			// arguments.callee.caller.arguments]);
 			if (tags.length > 0)
-				_log(tags);
+				console[logLevel](tags);
 			if (message)
-				_log(message);
+				console[logLevel](message);
 			if (includeStack)
 				console.trace();
 		};
@@ -85,9 +99,6 @@ TraceJS("StoryEditor", true);
 	 */
 	self.GetLogger =
 		function(type, commonTags) {
-			function isArray(someVar) {
-				return Object.prototype.toString.call(someVar) === '[object Array]';
-			}
 			var log = { debug : debug, info : info, warn : warn }[type];
 			var arTags =
 				(commonTags ? (isArray(commonTags) ? commonTags
@@ -107,8 +118,8 @@ TraceJS("StoryEditor", true);
 	 *            pIncludeStack Show stack trace
 	 */
 	function watch(watchThis, pIncludeStack) {
-		watchingNow = watchThis;
-		includeStack = pIncludeStack;
+		watchingNow = watchThis || false;
+		includeStack = pIncludeStack || false;
 		save();
 	}
 
